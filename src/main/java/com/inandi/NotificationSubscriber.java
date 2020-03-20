@@ -23,7 +23,7 @@ public class NotificationSubscriber implements MessageListener {
         this.objectMapper = new ObjectMapper();
     }
 
-    public Flux<String> notifications(){
+    public Flux<Notification> notifications(){
         return Flux.create(fluxSinkConsumer);
     }
 

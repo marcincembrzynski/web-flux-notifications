@@ -14,15 +14,15 @@ import java.util.stream.Collectors;
 
 @Log
 @Component
-public class FluxSinkConsumer implements Consumer<FluxSink<String>> {
+public class FluxSinkConsumer implements Consumer<FluxSink<Notification>> {
 
-    private List<Pair<FluxSink<String>, String>> fluxSinks = new ArrayList<>();
+    private List<Pair<FluxSink<Notification>, String>> fluxSinks = new ArrayList<>();
 
     @Autowired
     private HttpServletRequest httpServletRequest;
 
     @Override
-    public void accept(FluxSink<String> fluxSink) {
+    public void accept(FluxSink<Notification> fluxSink) {
         String token = httpServletRequest.getHeader("authentication");
         if(token != null) {
             fluxSinks.add(Pair.of(fluxSink, token));
@@ -33,7 +33,7 @@ public class FluxSinkConsumer implements Consumer<FluxSink<String>> {
         setClients();
         log.info("clients: " + this.fluxSinks.size());
         this.fluxSinks.stream().filter(e -> e.getSecond().equals(notification.getToken()))
-                .forEach(e -> e.getFirst().next(notification.getMessage()));
+                .forEach(e -> e.getFirst().next(notification));
     }
 
     private void setClients() {

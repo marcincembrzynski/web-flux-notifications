@@ -1,5 +1,6 @@
 package com.inandi;
 
+import com.inandi.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ public class NotificationController {
     private NotificationSubscriber notificationSubscriber;
 
     @GetMapping(path = "/notifications", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> streamFlux(HttpServletRequest httpServletRequest) {
+    public Flux<Notification> streamFlux(HttpServletRequest httpServletRequest) {
         return notificationSubscriber.notifications();
     }
 }
